@@ -1,0 +1,11 @@
+---
+layout: default
+---
+<article class="post-content">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta">发布于：{{ page.date | date: "%Y-%m-%d" }} | 分区：{{ page.categories | join: ", " }}</div>
+    
+    <div class="markdown-body">
+        {{ content }}
+    </div>
+</article>

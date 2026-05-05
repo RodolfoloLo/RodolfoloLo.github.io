@@ -1,0 +1,6 @@
+title: RodolfoIoLo's Blog
+description: 欢迎来到我的紫金国度
+permalink: /:categories/:year/:month/:day/:title/
+markdown: kramdown
+timezone: Asia/Shanghai
+url: "https://RodolfoIoLo.github.io"

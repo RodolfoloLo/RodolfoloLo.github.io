@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<div class="welcome-box" style="text-align: center; margin-bottom: 4rem;">
+    <h2 style="color: var(--primary-gold); font-size: 2rem;">👑 欢迎降临</h2>
+    <p>文章采用 Jekyll 自动渲染，在这里建立你的紫金帝国。</p>
+</div>
+
+<div id="categories">
+    {% assign categories = site.categories %}
+    
+    {% for category in categories %}
+    <div class="category-section">
+        <h2 class="category-title">{{ category[0] }}</h2>
+        <div class="post-list">
+            {% for post in category[1] %}
+            <a href="{{ post.url | relative_url }}" class="post-card">
+                <h3>{{ post.title }}</h3>
+                <p>⌚ {{ post.date | date: "%Y-%m-%d" }}</p>
+                {% if post.excerpt %}
+                <p style="margin-top: 10px; color: #ddd;">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

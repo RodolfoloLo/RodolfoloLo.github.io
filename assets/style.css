@@ -1,10 +1,11 @@
-:root {
-    --bg-color: #0b0213;
-    --primary-purple: #8a2be2;
-    --dark-purple: #4b0082;
-    --primary-gold: #ffd700;
-    --dark-gold: #b8860b;
-    --text-color: #e0e0e0;
+﻿:root {
+    --bg-color: #f8f9fa;
+    --primary-purple: #6a1b9a;
+    --light-purple: #e1bee7;
+    --primary-gold: #fbc02d;
+    --dark-gold: #f57f17;
+    --text-color: #333333;
+    --card-bg: #ffffff;
 }
 
 body, html {
@@ -15,110 +16,154 @@ body, html {
     color: var(--text-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x: hidden;
+    position: relative;
 }
 
-/* 动态背景：紫金渐变呼吸效果 */
+/* 动态背景：紫金漂浮粒子与渐变 */
 .bg-animation {
     position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(138,43,226,0.1) 0%, rgba(255,215,0,0.05) 50%, rgba(11,2,19,1) 80%);
-    animation: pulse 10s infinite alternate;
-    z-index: -1;
-    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(225,190,231,0.3) 0%, rgba(255,255,255,1) 50%, rgba(251,192,45,0.15) 100%);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
+    z-index: -2;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.8; }
-    100% { transform: scale(1.1); opacity: 1; }
+.bg-animation::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background-image: radial-gradient(circle, var(--primary-gold) 1px, transparent 1px),
+                      radial-gradient(circle, var(--primary-purple) 1px, transparent 1px);
+    background-size: 60px 60px, 80px 80px;
+    background-position: 0 0, 40px 40px;
+    opacity: 0.15;
+    animation: floatingParticles 40s linear infinite;
+    z-index: -1;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes floatingParticles {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(200px) rotate(5deg); }
 }
 
 /* 头部样式 */
 .cyber-header {
     text-align: center;
-    padding: 3rem 0;
-    border-bottom: 2px solid var(--primary-purple);
-    background: linear-gradient(180deg, rgba(75,0,130,0.4) 0%, rgba(11,2,19,0) 100%);
-    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+    padding: 4rem 0;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid var(--primary-purple);
+    box-shadow: 0 10px 30px rgba(106, 27, 154, 0.15);
+    position: relative;
+}
+
+.cyber-header nav {
+    margin-top: 1.5rem;
 }
 
 .cyber-header nav a {
-    color: var(--primary-gold);
+    color: var(--primary-purple);
+    background: #fff;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 2px solid var(--light-purple);
     text-decoration: none;
     margin: 0 15px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
     text-transform: uppercase;
-    transition: 0.3s;
-    letter-spacing: 2px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .cyber-header nav a:hover {
     color: #fff;
-    text-shadow: 0 0 10px var(--primary-gold), 0 0 20px var(--primary-gold);
+    background: var(--primary-purple);
+    border-color: var(--primary-purple);
+    box-shadow: 0 8px 20px rgba(106, 27, 154, 0.4);
+    transform: translateY(-3px);
 }
 
-/* 故障风标题特效 */
+/* 动态风标题特效 */
 .glitch {
     font-family: 'Orbitron', sans-serif;
-    font-size: 4rem;
+    font-size: 4.5rem;
     font-weight: 700;
     text-transform: uppercase;
     position: relative;
-    color: var(--primary-gold);
-    text-shadow: 0 0 15px var(--dark-gold), 0 0 30px var(--primary-purple);
-    margin-bottom: 1rem;
+    color: var(--primary-purple);
+    text-shadow: 2px 2px 0px var(--primary-gold), 4px 4px 15px rgba(106,27,154,0.3);
+    margin: 0;
+    display: inline-block;
+    animation: floatText 3s ease-in-out infinite;
+}
+
+@keyframes floatText {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 3rem 2rem;
 }
 
 /* 文章列表区 */
 .category-section {
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
 }
 
 .category-title {
     color: var(--primary-purple);
-    font-size: 2rem;
-    border-left: 5px solid var(--primary-gold);
+    font-size: 2.2rem;
+    border-left: 6px solid var(--primary-gold);
     padding-left: 15px;
-    text-shadow: 0 0 10px rgba(138,43,226,0.6);
+    margin-bottom: 1.5rem;
 }
 
 .post-card {
     display: block;
-    background: rgba(40, 0, 70, 0.3);
-    border: 1px solid var(--dark-purple);
-    margin-bottom: 1.5rem;
-    padding: 1.5rem;
-    border-radius: 8px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    padding: 2rem;
     text-decoration: none;
     color: inherit;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
+    border: 1px solid rgba(106,27,154,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     overflow: hidden;
 }
 
+/* 卡片的光效掠过 */
 .post-card::before {
     content: '';
     position: absolute;
     top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-    transition: 0.5s;
-    transform: skewX(-20deg);
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(251, 192, 45, 0.4), transparent);
+    transition: 0.6s ease;
+    transform: skewX(-25deg);
 }
 
 .post-card:hover {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-8px) scale(1.02);
     border-color: var(--primary-gold);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(138, 43, 226, 0.3);
+    box-shadow: 0 15px 30px rgba(106, 27, 154, 0.15), 0 0 0 2px var(--primary-gold) inset;
 }
 
 .post-card:hover::before {
@@ -127,54 +172,59 @@ body, html {
 
 .post-card h3 {
     margin: 0 0 10px 0;
-    color: #fff;
-    font-size: 1.5rem;
+    color: var(--primary-purple);
+    font-size: 1.6rem;
 }
 
 .post-card p {
-    color: #b0b0b0;
-    font-size: 0.9rem;
+    color: #666;
+    font-size: 0.95rem;
     margin: 0;
 }
 
 /* 文章详情页 */
 .post-content {
-    background: rgba(20, 0, 40, 0.6);
-    padding: 3rem;
-    border-radius: 10px;
-    border-top: 3px solid var(--primary-gold);
-    box-shadow: 0 0 30px rgba(138, 43, 226, 0.1);
+    background: var(--card-bg);
+    padding: 4rem;
+    border-radius: 15px;
+    border-top: 5px solid var(--primary-gold);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }
 
 .post-title {
-    color: var(--primary-gold);
-    font-size: 2.5rem;
+    color: var(--primary-purple);
+    font-size: 2.8rem;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .post-meta {
     text-align: center;
-    color: #888;
+    color: #999;
     margin-bottom: 3rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px dashed #eee;
 }
 
 .markdown-body {
     line-height: 1.8;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    color: #444;
 }
 
 .markdown-body h2 {
     color: var(--primary-purple);
-    border-bottom: 1px solid var(--dark-purple);
-    padding-bottom: 5px;
+    border-bottom: 2px solid var(--light-purple);
+    padding-bottom: 8px;
+    margin-top: 2rem;
 }
 
 footer {
     text-align: center;
-    padding: 2rem 0;
-    color: #666;
-    border-top: 1px solid #222;
-    margin-top: 4rem;
+    padding: 3rem 0;
+    color: #888;
+    background: #fff;
+    border-top: 1px solid #eaeaea;
+    margin-top: 5rem;
 }
